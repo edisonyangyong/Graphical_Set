@@ -65,6 +65,63 @@ class CardView: UIView {
         path.fill()
     }
     
+    func draw_oval(){
+        if self.num == 1 || self.num == 3{
+            path = UIBezierPath()
+            path.move(to: CGPoint(x: bounds.minX+0.267*bounds.width, y: bounds.minY+0.6*bounds.height))
+            path.addArc(withCenter: CGPoint(x: bounds.minX+0.267*bounds.width, y: bounds.midY), radius: 0.1*bounds.height, startAngle: 0.5*CGFloat.pi, endAngle: 1.5*CGFloat.pi, clockwise: true)
+            path.addLine(to: CGPoint(x: bounds.minX+0.681*bounds.width, y: bounds.minY+0.4*bounds.height))
+            path.addArc(withCenter: CGPoint(x: bounds.minX+0.681*bounds.width, y: bounds.midY), radius: 0.1*bounds.height, startAngle: 1.5*CGFloat.pi, endAngle: -1.5*CGFloat.pi, clockwise: true)
+            draw_path()
+        }
+        if self.num == 2 || self.num == 3{
+            path = UIBezierPath()
+            path.move(to: CGPoint(x: bounds.minX+0.267*bounds.width, y: bounds.minY+0.6*bounds.height-offset!))
+            path.addArc(withCenter: CGPoint(x: bounds.minX+0.267*bounds.width, y: bounds.midY-offset!), radius: 0.1*bounds.height, startAngle: 0.5*CGFloat.pi, endAngle: 1.5*CGFloat.pi, clockwise: true)
+            path.addLine(to: CGPoint(x: bounds.minX+0.681*bounds.width, y: bounds.minY+0.4*bounds.height-offset!))
+            path.addArc(withCenter: CGPoint(x: bounds.minX+0.681*bounds.width, y: bounds.midY-offset!), radius: 0.1*bounds.height, startAngle: 1.5*CGFloat.pi, endAngle: -1.5*CGFloat.pi, clockwise: true)
+            draw_path()
+            path = UIBezierPath()
+            path.move(to: CGPoint(x: bounds.minX+0.267*bounds.width, y: bounds.minY+0.6*bounds.height+offset!))
+            path.addArc(withCenter: CGPoint(x: bounds.minX+0.267*bounds.width, y: bounds.midY+offset!), radius: 0.1*bounds.height, startAngle: 0.5*CGFloat.pi, endAngle: 1.5*CGFloat.pi, clockwise: true)
+            path.addLine(to: CGPoint(x: bounds.minX+0.681*bounds.width, y: bounds.minY+0.4*bounds.height+offset!))
+            path.addArc(withCenter: CGPoint(x: bounds.minX+0.681*bounds.width, y: bounds.midY+offset!), radius: 0.1*bounds.height, startAngle: 1.5*CGFloat.pi, endAngle: -1.5*CGFloat.pi, clockwise: true)
+            draw_path()
+        }
+    }
+    
+    func draw_squiggle(){
+        if self.num == 1 || self.num == 3{
+            path = UIBezierPath()
+            path.move(to: CGPoint(x: bounds.minX+0.1815*bounds.width, y: bounds.minY+0.579*bounds.height))
+            path.addCurve(to:  CGPoint(x: bounds.minX+0.815*bounds.width, y: bounds.minY+0.421*bounds.height), controlPoint1:  CGPoint(x: bounds.minX+0.305*bounds.width, y: bounds.minY+0.162*bounds.height), controlPoint2: CGPoint(x: bounds.minX+0.672*bounds.width, y: bounds.minY+0.579*bounds.height))
+            path.addCurve(to:  CGPoint(x: bounds.minX+0.1815*bounds.width, y: bounds.minY+0.579*bounds.height), controlPoint1:  CGPoint(x: bounds.minX+0.695*bounds.width, y: bounds.minY+0.838*bounds.height), controlPoint2: CGPoint(x: bounds.minX+0.328*bounds.width, y: bounds.minY+0.421*bounds.height))
+            draw_path()
+        }
+        if self.num == 2 || self.num == 3{
+            path = UIBezierPath()
+            path.move(to: CGPoint(x: bounds.minX+0.1815*bounds.width, y: bounds.minY+0.579*bounds.height-offset!))
+            path.addCurve(to:  CGPoint(x: bounds.minX+0.815*bounds.width, y: bounds.minY+0.421*bounds.height-offset!), controlPoint1:  CGPoint(x: bounds.minX+0.305*bounds.width, y: bounds.minY+0.162*bounds.height-offset!), controlPoint2: CGPoint(x: bounds.minX+0.672*bounds.width, y: bounds.minY+0.579*bounds.height-offset!))
+            path.addCurve(to:  CGPoint(x: bounds.minX+0.1815*bounds.width, y: bounds.minY+0.579*bounds.height-offset!), controlPoint1:  CGPoint(x: bounds.minX+0.695*bounds.width, y: bounds.minY+0.838*bounds.height-offset!), controlPoint2: CGPoint(x: bounds.minX+0.328*bounds.width, y: bounds.minY+0.421*bounds.height-offset!))
+            draw_path()
+            path = UIBezierPath()
+            path.move(to: CGPoint(x: bounds.minX+0.1815*bounds.width, y: bounds.minY+0.579*bounds.height+offset!))
+            path.addCurve(to:  CGPoint(x: bounds.minX+0.815*bounds.width, y: bounds.minY+0.421*bounds.height+offset!), controlPoint1:  CGPoint(x: bounds.minX+0.305*bounds.width, y: bounds.minY+0.162*bounds.height+offset!), controlPoint2: CGPoint(x: bounds.minX+0.672*bounds.width, y: bounds.minY+0.579*bounds.height+offset!))
+            path.addCurve(to:  CGPoint(x: bounds.minX+0.1815*bounds.width, y: bounds.minY+0.579*bounds.height+offset!), controlPoint1:  CGPoint(x: bounds.minX+0.695*bounds.width, y: bounds.minY+0.838*bounds.height+offset!), controlPoint2: CGPoint(x: bounds.minX+0.328*bounds.width, y: bounds.minY+0.421*bounds.height+offset!))
+            draw_path()
+        }
+    }
+    
+    func draw_lines(){
+        for i in 0...50{
+            let line = UIBezierPath()
+            line.move(to: CGPoint(x: bounds.minX+bounds.width/50*CGFloat(i), y: bounds.minY))
+            line.addLine(to: CGPoint(x: bounds.minX+bounds.width/50*CGFloat(i), y: bounds.maxY))
+            line.lineWidth = 5.0
+            line.stroke()
+        }
+    }
+    
     override func draw(_ rect: CGRect) {
         // draw the rounded rect
         let roundedRect = UIBezierPath(roundedRect: bounds, cornerRadius: 16)
@@ -80,15 +137,15 @@ class CardView: UIView {
             default: break
         }
         switch self.shading{
-            case .strip?: UIColor.white.setFill()
+        case .strip?:UIColor.white.setFill(); draw_lines()
             case .fill?: break
             case .outline?: UIColor.white.setFill()
             default: break
         }
         switch self.shape{
-            case .squiggle?: draw_diamond()
+            case .squiggle?: draw_squiggle()
             case .diamond?: draw_diamond()
-            case .oval?: draw_diamond()
+            case .oval?: draw_oval()
             default: break
         }
     }

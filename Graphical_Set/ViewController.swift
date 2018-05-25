@@ -24,8 +24,8 @@ class ViewController: UIViewController {
         card = game?.draw_a_card()
         print(card!.color, card!.number, card!.shading, card!.shape)
         
-        // draw a card
-        let frame = CGRect(x: 100, y: 100, width: 100, height: 150)
+        // add a card view
+        let frame = CGRect(x: 20, y: 100, width: 350, height: 500)
         let customView = CardView(color: card!.color, num: card!.number, shape: card!.shape, shading: card!.shading, cgrect: frame)
         customView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
         self.view.addSubview(customView)
