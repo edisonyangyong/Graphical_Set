@@ -14,6 +14,17 @@ class ViewController: UIViewController {
     var stack_view: UIView?
     var cards_in_stack = [Card]()
     
+    @IBAction func deal(_ sender: UIButton) {
+        if game!.cards.count >= 2{
+            for _ in 0...2{
+                let card = game?.draw_a_card()
+                cards_in_stack.append(card!)
+            }
+            // load the cards
+            load_cards(cards: cards_in_stack)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // load the game and draw a card
@@ -24,7 +35,7 @@ class ViewController: UIViewController {
         stack_view!.backgroundColor = #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 0.5)
         self.view.addSubview(stack_view!)
         // load first 12 cards
-        for _ in 0...44{
+        for _ in 0...11{
             let card = game?.draw_a_card()
             cards_in_stack.append(card!)
         }
@@ -32,20 +43,41 @@ class ViewController: UIViewController {
         load_cards(cards: cards_in_stack)
     }
     
+    // given all the cards on the desk and re-load them in the stack view
     func load_cards(cards: [Card]){
-        let x_num = Int(sqrt(Double(cards.count)/0.75))
-        let y_num = Int(Double(x_num)*0.75)
+        // clear all the subviews
+        self.stack_view!.subviews.forEach({ $0.removeFromSuperview() })
+        
+        var x_num = 0
+        var y_num = 0
+        var index = 0
+        
+        let mid = Int(sqrt(Double(cards.count)))
+        if mid*mid == cards.count{
+            x_num = mid
+            y_num = mid
+        }else {
+            x_num = mid
+            y_num = mid+1
+            if x_num * y_num < cards.count{
+                x_num = mid + 1
+            }
+        }
+        
+        print("total: \(cards.count); x_num: \(x_num); y_num: \(y_num)")
         
         for i in 0..<y_num{
             for j in 0..<x_num{
-                let card = game?.draw_a_card()
-                let frame = CGRect(x: stack_view!.bounds.minX+stack_view!.bounds.width/CGFloat(x_num)*CGFloat(j),
-                                   y: stack_view!.bounds.minY+stack_view!.bounds.height/CGFloat(y_num)*CGFloat(i),
-                                   width: stack_view!.bounds.width/CGFloat(x_num),
-                                   height: stack_view!.bounds.height/CGFloat(y_num))
-                let customView = CardView(color: card!.color, num: card!.number, shape: card!.shape, shading: card!.shading, cgrect: frame)
-                customView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
-                stack_view!.addSubview(customView)
+                if index < cards.count{
+                    let frame = CGRect(x: stack_view!.bounds.minX+stack_view!.bounds.width/CGFloat(x_num)*CGFloat(j),
+                                       y: stack_view!.bounds.minY+stack_view!.bounds.height/CGFloat(y_num)*CGFloat(i),
+                                       width: stack_view!.bounds.width/CGFloat(x_num),
+                                       height: stack_view!.bounds.height/CGFloat(y_num))
+                    let customView = CardView(color: cards[index].color, num: cards[index].number, shape: cards[index].shape, shading: cards[index].shading, cgrect: frame)
+                    customView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                    stack_view!.addSubview(customView)
+                    index += 1
+                }
             }
         }
     }
