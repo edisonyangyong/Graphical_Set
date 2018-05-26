@@ -122,6 +122,8 @@ class CardView: UIView {
         roundedRect.addClip()
         UIColor.white.setFill()
         roundedRect.fill()
+        UIColor.gray.setStroke()
+        roundedRect.stroke()
         
         // draw the pattern
         switch self.color{
