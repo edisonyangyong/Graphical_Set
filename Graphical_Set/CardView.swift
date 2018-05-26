@@ -93,11 +93,11 @@ class CardView: UIView {
     }
     
     func draw_lines(){
-        for i in 0...25{
+        for i in 0...20{
             let line = UIBezierPath()
-            line.move(to: CGPoint(x: bounds.minX+bounds.width/25*CGFloat(i), y: bounds.minY))
-            line.addLine(to: CGPoint(x: bounds.minX+bounds.width/25*CGFloat(i), y: bounds.maxY))
-            line.lineWidth = 5.0
+            line.move(to: CGPoint(x: bounds.minX+bounds.width/20*CGFloat(i), y: bounds.minY))
+            line.addLine(to: CGPoint(x: bounds.minX+bounds.width/20*CGFloat(i), y: bounds.maxY))
+            line.lineWidth = 1.0
             line.stroke()
         }
     }
@@ -107,7 +107,13 @@ class CardView: UIView {
         path.lineWidth = 5.0
         path.stroke()
         path.fill()
-        //path.addClip()
+        if self.shading == .strip{
+            let context = UIGraphicsGetCurrentContext()!
+            context.saveGState()
+            path.addClip()
+            draw_lines()
+            context.restoreGState()
+        }
     }
     
     override func draw(_ rect: CGRect) {
@@ -135,12 +141,6 @@ class CardView: UIView {
             case .diamond?: draw_diamond()
             case .oval?: draw_oval()
             default: break
-        }
-        switch self.shading{
-            case .strip?:break
-            case .fill?: break
-            case .outline?: break
-        default: break
         }
     }
 }
