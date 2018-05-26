@@ -15,6 +15,7 @@ class CardView: UIView {
     var shading: Card.Shading?
     var offset: CGFloat?
     var path = UIBezierPath()
+    var is_select = false
     
     init(color: Card.Color, num: Int, shape: Card.Shape, shading: Card.Shading, cgrect: CGRect) {
         super.init(frame: cgrect)
@@ -116,14 +117,20 @@ class CardView: UIView {
         }
     }
     
+    var roundedRect: UIBezierPath?
     override func draw(_ rect: CGRect) {
         // draw the rounded rect
-        let roundedRect = UIBezierPath(roundedRect: bounds, cornerRadius: 16)
-        roundedRect.addClip()
+        roundedRect = UIBezierPath(roundedRect: bounds, cornerRadius: bounds.width/5)
+        roundedRect!.addClip()
         UIColor.white.setFill()
-        roundedRect.fill()
-        UIColor.gray.setStroke()
-        roundedRect.stroke()
+        roundedRect!.fill()
+        if is_select{
+            roundedRect?.lineWidth = bounds.width/5
+             UIColor.yellow.setStroke()
+        }else{
+            UIColor.gray.setStroke()
+        }
+        roundedRect!.stroke()
         
         // draw the pattern
         switch self.color{
@@ -144,5 +151,11 @@ class CardView: UIView {
             case .oval?: draw_oval()
             default: break
         }
+    }
+    
+    @objc func choose_card(){
+        is_select = !is_select
+        setNeedsDisplay()
+        setNeedsLayout()
     }
 }

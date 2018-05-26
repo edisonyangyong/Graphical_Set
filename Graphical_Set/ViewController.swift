@@ -47,11 +47,9 @@ class ViewController: UIViewController {
     func load_cards(cards: [Card]){
         // clear all the subviews
         self.stack_view!.subviews.forEach({ $0.removeFromSuperview() })
-        
         var x_num = 0
         var y_num = 0
         var index = 0
-        
         let mid = Int(sqrt(Double(cards.count)))
         if mid*mid == cards.count{
             x_num = mid
@@ -63,9 +61,6 @@ class ViewController: UIViewController {
                 x_num = mid + 1
             }
         }
-        
-        print("total: \(cards.count); x_num: \(x_num); y_num: \(y_num)")
-        
         for i in 0..<y_num{
             for j in 0..<x_num{
                 if index < cards.count{
@@ -77,9 +72,11 @@ class ViewController: UIViewController {
                     customView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
                     stack_view!.addSubview(customView)
                     index += 1
+                    // add gesture
+                    let tap = UITapGestureRecognizer(target: customView, action: #selector(customView.choose_card))
+                    customView.addGestureRecognizer(tap)
                 }
             }
         }
     }
 }
-
