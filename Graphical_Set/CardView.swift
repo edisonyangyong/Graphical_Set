@@ -82,9 +82,9 @@ class CardView: UIView {
     }
     
     func draw_squiggle(path: UIBezierPath, offset: CGFloat){
-        path.move(to: CGPoint(x: bounds.minX+0.3*bounds.width, y: bounds.minY+0.579*bounds.height+offset))
-        path.addCurve(to:  CGPoint(x: bounds.minX+0.7*bounds.width, y: bounds.minY+0.421*bounds.height+offset), controlPoint1:  CGPoint(x: bounds.minX+0.4253*bounds.width, y: bounds.minY+0.162*bounds.height+offset), controlPoint2: CGPoint(x: bounds.minX+0.5535*bounds.width, y: bounds.minY+0.579*bounds.height+offset))
-        path.addCurve(to:  CGPoint(x: bounds.minX+0.3*bounds.width, y: bounds.minY+0.579*bounds.height+offset), controlPoint1:  CGPoint(x: bounds.minX+0.5535*bounds.width, y: bounds.minY+0.838*bounds.height+offset), controlPoint2: CGPoint(x: bounds.minX+0.4253*bounds.width, y: bounds.minY+0.421*bounds.height+offset))
+        path.move(to: CGPoint(x: bounds.minX+0.3*bounds.width, y: bounds.minY+0.5*bounds.height+offset))
+        path.addCurve(to:  CGPoint(x: bounds.minX+0.7*bounds.width, y: bounds.minY+0.421*bounds.height+offset), controlPoint1:  CGPoint(x: bounds.minX+0.4253*bounds.width, y: bounds.minY+0.25*bounds.height+offset), controlPoint2: CGPoint(x: bounds.minX+0.5535*bounds.width, y: bounds.minY+0.5*bounds.height+offset))
+        path.addCurve(to:  CGPoint(x: bounds.minX+0.3*bounds.width, y: bounds.minY+0.5*bounds.height+offset), controlPoint1:  CGPoint(x: bounds.minX+0.5535*bounds.width, y: bounds.minY+0.7*bounds.height+offset), controlPoint2: CGPoint(x: bounds.minX+0.4253*bounds.width, y: bounds.minY+0.421*bounds.height+offset))
         draw_line(path: path)
     }
     
