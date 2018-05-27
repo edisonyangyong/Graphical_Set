@@ -47,6 +47,9 @@
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
                                                 <state key="normal" title="New Game"/>
+                                                <connections>
+                                                    <action selector="new_game:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ehX-rO-HBf"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rzc-c1-qZ4">
                                                 <rect key="frame" x="171.5" y="0.0" width="163.5" height="51"/>

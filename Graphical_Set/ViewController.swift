@@ -14,6 +14,19 @@ class ViewController: UIViewController {
     var stack_view: UIView?
     var cards_in_stack = [Card]()
     
+    @IBAction func new_game(_ sender: UIButton) {
+         game = Set_game()
+        // clear all the subviews
+        self.stack_view!.subviews.forEach({ $0.removeFromSuperview() })
+        cards_in_stack = []
+        for _ in 0...11{
+            let card = game?.draw_a_card()
+            cards_in_stack.append(card!)
+        }
+        // load the cards
+        load_cards(cards: cards_in_stack)
+    }
+    
     @IBAction func deal(_ sender: UIButton) {
         if game!.cards.count >= 2{
             for _ in 0...2{
