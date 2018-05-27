@@ -13,6 +13,7 @@ class ViewController: UIViewController {
     var game: Set_game?
     var stack_view: UIView?
     var cards_in_stack = [Card]()
+    var cards_dictionary = [Card:CardView]()
     
     @IBAction func new_game(_ sender: UIButton) {
          game = Set_game()
@@ -84,11 +85,30 @@ class ViewController: UIViewController {
                     let customView = CardView(color: cards[index].color, num: cards[index].number, shape: cards[index].shape, shading: cards[index].shading, cgrect: frame)
                     customView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
                     stack_view!.addSubview(customView)
+                    cards_dictionary[cards[index]] = customView
                     index += 1
                     // add gesture
                     let tap = UITapGestureRecognizer(target: customView, action: #selector(customView.choose_card))
+                    tap.addTarget(self, action: #selector(tapped))
                     customView.addGestureRecognizer(tap)
                 }
+            }
+        }
+    }
+    
+    @objc func tapped(){
+        var cards_is_selected = [Card]()
+        for (card, card_view) in cards_dictionary{
+            if card_view.is_select{
+                cards_is_selected.append(card)
+            }
+        }
+        
+        if cards_is_selected.count == 3{
+            if game!.set_checking(is_cheated: false, card1: cards_is_selected[0], card2: cards_is_selected[1], card3: cards_is_selected[2]){
+                print("match")
+            }else{
+                print("not match")
             }
         }
     }

@@ -8,12 +8,11 @@
 
 import Foundation
 
-struct Card{
+struct Card: Hashable{
     var shape: Shape
     var number: Int
     var color: Color
     var shading: Shading
-    var is_selected = false
     
     enum Shape {
         case squiggle

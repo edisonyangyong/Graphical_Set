@@ -16,7 +16,7 @@ struct Set_game{
             for shading in Card.Shading.all{
                 for shape in Card.Shape.all{
                     for num in 1...3{
-                        cards.append(Card(shape: shape, number:num, color:color, shading:shading, is_selected: false))
+                        cards.append(Card(shape: shape, number:num, color:color, shading:shading))
                     }
                 }
             }
