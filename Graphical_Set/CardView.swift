@@ -74,10 +74,10 @@ class CardView: UIView {
     }
     
     func draw_oval(path: UIBezierPath, offset: CGFloat){
-        path.move(to: CGPoint(x: bounds.minX+0.4*bounds.width, y: bounds.minY+0.6*bounds.height+offset))
-        path.addArc(withCenter: CGPoint(x: bounds.minX+0.4*bounds.width, y: bounds.midY+offset), radius: 0.1*bounds.height, startAngle: 0.5*CGFloat.pi, endAngle: 1.5*CGFloat.pi, clockwise: true)
-        path.addLine(to: CGPoint(x: bounds.minX+0.6*bounds.width, y: bounds.minY+0.4*bounds.height+offset))
-        path.addArc(withCenter: CGPoint(x: bounds.minX+0.6*bounds.width, y: bounds.midY+offset), radius: 0.1*bounds.height, startAngle: 1.5*CGFloat.pi, endAngle: -1.5*CGFloat.pi, clockwise: true)
+        path.move(to: CGPoint(x: bounds.minX+0.4*bounds.width, y: bounds.minY+0.57*bounds.height+offset))
+        path.addArc(withCenter: CGPoint(x: bounds.minX+0.4*bounds.width, y: bounds.midY+offset), radius: 0.07*bounds.height, startAngle: 0.5*CGFloat.pi, endAngle: 1.5*CGFloat.pi, clockwise: true)
+        path.addLine(to: CGPoint(x: bounds.minX+0.6*bounds.width, y: bounds.minY+0.43*bounds.height+offset))
+        path.addArc(withCenter: CGPoint(x: bounds.minX+0.6*bounds.width, y: bounds.midY+offset), radius: 0.07*bounds.height, startAngle: 1.5*CGFloat.pi, endAngle: -1.5*CGFloat.pi, clockwise: true)
         draw_line(path: path)
     }
     
