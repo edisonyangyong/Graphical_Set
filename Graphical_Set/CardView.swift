@@ -115,17 +115,21 @@ class CardView: UIView {
         UIColor.white.setFill()
         roundedRect!.fill()
         if is_select{
-            roundedRect?.lineWidth = bounds.width/5
-             UIColor.yellow.setStroke()
+            roundedRect?.lineWidth = bounds.width/7
+             UIColor(red: 250/255.0, green: 212/255.0, blue: 77/255.0, alpha: 1).setStroke()
         }else{
+            roundedRect?.lineWidth = bounds.width/50
             UIColor.gray.setStroke()
         }
         roundedRect!.stroke()
         // draw the pattern
         switch self.color{
-            case .red?: UIColor.red.setStroke(); UIColor.red.setFill()
-            case .green?: UIColor.green.setStroke(); UIColor.green.setFill()
-            case .blue?: UIColor.blue.setStroke(); UIColor.blue.setFill()
+        case .red?: UIColor(red: 234/255.0, green: 49/255.0, blue: 44/255.0, alpha: 1).setFill();
+                    UIColor(red: 234/255.0, green: 49/255.0, blue: 44/255.0, alpha: 1).setStroke()
+            case .green?: UIColor(red: 91/255.0, green: 201/255.0, blue: 53/255.0, alpha: 1).setFill();
+                         UIColor(red: 91/255.0, green: 201/255.0, blue: 53/255.0, alpha: 1).setStroke()
+            case .blue?: UIColor(red: 51/255.0, green: 125/255.0, blue: 246/255.0, alpha: 1).setFill();
+                     UIColor(red: 51/255.0, green: 125/255.0, blue: 246/255.0, alpha: 1).setStroke()
             default: break
         }
         switch self.shading{

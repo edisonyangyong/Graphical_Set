@@ -32,7 +32,7 @@ class ViewController: UIViewController {
         // laod the card stack view
         let frame = CGRect(x: 20, y: 20, width: self.view.frame.size.width-40, height: self.view.frame.size.height*3/4)
         stack_view = UIView(frame: frame)
-        stack_view!.backgroundColor = #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 0.5)
+        stack_view!.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
         self.view.addSubview(stack_view!)
         // load first 12 cards
         for _ in 0...11{
