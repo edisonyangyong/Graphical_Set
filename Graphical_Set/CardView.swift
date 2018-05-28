@@ -154,7 +154,7 @@ class CardView: UIView {
         if is_match == nil{
             is_select = !is_select
             setNeedsDisplay()
-            setNeedsLayout()
+            //setNeedsLayout()
         }
     }
 
@@ -167,6 +167,6 @@ class CardView: UIView {
             is_match = nil
         }
         setNeedsDisplay()
-        setNeedsLayout()
+        //setNeedsLayout()
     }
 }

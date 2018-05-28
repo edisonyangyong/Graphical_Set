@@ -113,17 +113,21 @@ class ViewController: UIViewController {
                 if !flag{
                      cards_is_selected.append(card)
                 }
+            }else if !card_view.is_select && card_view.is_match == nil{
+                for c in cards_is_selected{
+                    if c == card{
+                        cards_is_selected.remove(at: game!.return_card_index(card: card, cards: cards_is_selected))
+                    }
+                }
             }
         }
         print(cards_is_selected.count)
-        if cards_is_selected.count == 3{
+        if cards_is_selected.count == 3 {
             if game!.set_checking(is_cheated: false, card1: cards_is_selected[0], card2: cards_is_selected[1], card3: cards_is_selected[2]){
-                print("match")
                 cards_dictionary[cards_is_selected[0]]!.match_card_and_redraw(match: true)
                 cards_dictionary[cards_is_selected[1]]!.match_card_and_redraw(match: true)
                 cards_dictionary[cards_is_selected[2]]!.match_card_and_redraw(match: true)
             }else{
-                print("not match")
                 cards_dictionary[cards_is_selected[0]]!.match_card_and_redraw(match: false)
                 cards_dictionary[cards_is_selected[1]]!.match_card_and_redraw(match: false)
                 cards_dictionary[cards_is_selected[2]]!.match_card_and_redraw(match: false)

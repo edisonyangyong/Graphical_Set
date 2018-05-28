@@ -38,7 +38,7 @@ struct Set_game{
         }
     }
     
-    func return_the_desk_card_index(card: Card, cards:[Card])->Int{
+    func return_card_index(card: Card, cards:[Card])->Int{
         return cards.index(where: {($0.color, $0.number, $0.shape, $0.shading) == (card.color, card.number, card.shape, card.shading)})!
     }
     
