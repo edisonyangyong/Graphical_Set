@@ -52,7 +52,23 @@ class ViewController: UIViewController {
                 card_view.select_and_deselect_the_card()
             }
         }
-        
+        print(cheat_check())
+    }
+    
+    func cheat_check() -> String{
+        for i in 0..<cards_in_stack.count{
+            for j in (i+1)..<cards_in_stack.count{
+                for k in (j+1)..<cards_in_stack.count{
+                    if game!.set_checking(is_cheated: true, card1: cards_in_stack[i], card2: cards_in_stack[j], card3: cards_in_stack[k]){
+                        cards_dictionary[cards_in_stack[i]]?.match_card_and_redraw(match: true)
+                        cards_dictionary[cards_in_stack[j]]?.match_card_and_redraw(match: true)
+                        cards_dictionary[cards_in_stack[k]]?.match_card_and_redraw(match: true)
+                        return "found"
+                    }
+                }
+            }
+        }
+        return "not found"
     }
     
     override func viewDidLoad() {
