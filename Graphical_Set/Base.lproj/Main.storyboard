@@ -36,6 +36,9 @@
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
                                                 <state key="normal" title="Cheat"/>
+                                                <connections>
+                                                    <action selector="cheat:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LiL-Pv-quo"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>

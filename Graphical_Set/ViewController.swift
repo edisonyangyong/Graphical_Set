@@ -42,6 +42,13 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func cheat(_ sender: UIButton) {
+        for card in cards_is_selected{
+            cards_dictionary[card]!.select_and_deselect_the_card()
+        }
+        // set all red cards to white
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // load the game and draw a card
