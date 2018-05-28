@@ -46,7 +46,13 @@ class ViewController: UIViewController {
         for card in cards_is_selected{
             cards_dictionary[card]!.select_and_deselect_the_card()
         }
-        // set all red cards to white
+        for (_, card_view) in cards_dictionary{
+            if card_view.is_match != nil{
+                card_view.match_card_and_redraw(match: nil)
+                card_view.select_and_deselect_the_card()
+            }
+        }
+        
     }
     
     override func viewDidLoad() {
