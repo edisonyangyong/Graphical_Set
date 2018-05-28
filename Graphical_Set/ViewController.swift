@@ -121,28 +121,25 @@ class ViewController: UIViewController {
                 }
             }
         }
-        print(cards_is_selected.count)
         if cards_is_selected.count == 3 {
             if game!.set_checking(is_cheated: false, card1: cards_is_selected[0], card2: cards_is_selected[1], card3: cards_is_selected[2]){
-                cards_dictionary[cards_is_selected[0]]!.match_card_and_redraw(match: true)
-                cards_dictionary[cards_is_selected[1]]!.match_card_and_redraw(match: true)
-                cards_dictionary[cards_is_selected[2]]!.match_card_and_redraw(match: true)
+                set_match_to(bool: true)
             }else{
-                cards_dictionary[cards_is_selected[0]]!.match_card_and_redraw(match: false)
-                cards_dictionary[cards_is_selected[1]]!.match_card_and_redraw(match: false)
-                cards_dictionary[cards_is_selected[2]]!.match_card_and_redraw(match: false)
+                set_match_to(bool: false)
             }
         }
         if cards_is_selected.count == 4{
-            cards_dictionary[cards_is_selected[0]]!.match_card_and_redraw(match: nil)
-            cards_dictionary[cards_is_selected[1]]!.match_card_and_redraw(match: nil)
-            cards_dictionary[cards_is_selected[2]]!.match_card_and_redraw(match: nil)
-            cards_dictionary[cards_is_selected[0]]!.select_and_deselect_the_card()
-            cards_dictionary[cards_is_selected[1]]!.select_and_deselect_the_card()
-            cards_dictionary[cards_is_selected[2]]!.select_and_deselect_the_card()
-            cards_is_selected.remove(at: 0)
-            cards_is_selected.remove(at: 0)
-            cards_is_selected.remove(at: 0)
+            set_match_to(bool: nil)
+            for _ in 0...2{
+                cards_dictionary[cards_is_selected[0]]!.select_and_deselect_the_card()
+                cards_is_selected.remove(at: 0)
+            }
+        }
+    }
+    
+    func set_match_to(bool: Bool?){
+        for i in 0...2{
+             cards_dictionary[cards_is_selected[i]]!.match_card_and_redraw(match: bool)
         }
     }
 }
