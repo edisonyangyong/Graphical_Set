@@ -16,6 +16,7 @@ class CardView: UIView {
     var offset: CGFloat?
     var path = UIBezierPath()
     var is_select = false
+    var is_match: Bool?
     var roundedRect: UIBezierPath?
     
     init(color: Card.Color, num: Int, shape: Card.Shape, shading: Card.Shading, cgrect: CGRect) {
@@ -109,6 +110,7 @@ class CardView: UIView {
     }
     
     override func draw(_ rect: CGRect) {
+        //print(color!, num!, shape!, "draw")
         // draw the rounded card bound
         roundedRect = UIBezierPath(roundedRect: bounds, cornerRadius: bounds.width/5)
         roundedRect!.addClip()
@@ -116,10 +118,17 @@ class CardView: UIView {
         roundedRect!.fill()
         if is_select{
             roundedRect?.lineWidth = bounds.width/7
-             UIColor(red: 250/255.0, green: 212/255.0, blue: 77/255.0, alpha: 1).setStroke()
+            UIColor(red: 250/255.0, green: 212/255.0, blue: 77/255.0, alpha: 1).setStroke()
         }else{
             roundedRect?.lineWidth = bounds.width/50
             UIColor.gray.setStroke()
+        }
+        if is_match == true{
+            roundedRect?.lineWidth = bounds.width/7
+            UIColor(red: 91/255.0, green: 201/255.0, blue: 53/255.0, alpha: 1).setStroke()
+        }else if is_match == false{
+            roundedRect?.lineWidth = bounds.width/7
+            UIColor(red: 234/255.0, green: 49/255.0, blue: 44/255.0, alpha: 1).setStroke()
         }
         roundedRect!.stroke()
         // draw the pattern
@@ -141,8 +150,22 @@ class CardView: UIView {
         draw_pattern()
     }
     
-    @objc func choose_card(){
-        is_select = !is_select
+    @objc func select_and_deselect_the_card(){
+        if is_match == nil{
+            is_select = !is_select
+            setNeedsDisplay()
+            setNeedsLayout()
+        }
+    }
+
+    func match_card_and_redraw(match: Bool?){
+        if match == true{
+            is_match = true
+        }else if match == false {
+            is_match = false
+        }else{
+            is_match = nil
+        }
         setNeedsDisplay()
         setNeedsLayout()
     }

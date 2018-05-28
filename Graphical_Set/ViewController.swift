@@ -14,7 +14,9 @@ class ViewController: UIViewController {
     var stack_view: UIView?
     var cards_in_stack = [Card]()
     var cards_dictionary = [Card:CardView]()
+    var cards_is_selected = [Card]()
     
+    // new game button
     @IBAction func new_game(_ sender: UIButton) {
          game = Set_game()
         // clear all the subviews
@@ -28,6 +30,7 @@ class ViewController: UIViewController {
         load_cards(cards: cards_in_stack)
     }
     
+    // deal button
     @IBAction func deal(_ sender: UIButton) {
         if game!.cards.count >= 2{
             for _ in 0...2{
@@ -88,28 +91,54 @@ class ViewController: UIViewController {
                     cards_dictionary[cards[index]] = customView
                     index += 1
                     // add gesture
-                    let tap = UITapGestureRecognizer(target: customView, action: #selector(customView.choose_card))
+                    let tap = UITapGestureRecognizer(target: customView, action: #selector(customView.select_and_deselect_the_card))
                     tap.addTarget(self, action: #selector(tapped))
                     customView.addGestureRecognizer(tap)
+                    // 1) call select_and_deselect_the_card; 2) call tapped; 3) call redraw
                 }
             }
         }
     }
     
+    // being called why any card view was tapped
     @objc func tapped(){
-        var cards_is_selected = [Card]()
         for (card, card_view) in cards_dictionary{
-            if card_view.is_select{
-                cards_is_selected.append(card)
+            if card_view.is_select && card_view.is_match == nil{
+                var flag = false
+                for c in cards_is_selected{
+                    if c == card{
+                        flag = true
+                    }
+                }
+                if !flag{
+                     cards_is_selected.append(card)
+                }
             }
         }
-        
+        print(cards_is_selected.count)
         if cards_is_selected.count == 3{
             if game!.set_checking(is_cheated: false, card1: cards_is_selected[0], card2: cards_is_selected[1], card3: cards_is_selected[2]){
                 print("match")
+                cards_dictionary[cards_is_selected[0]]!.match_card_and_redraw(match: true)
+                cards_dictionary[cards_is_selected[1]]!.match_card_and_redraw(match: true)
+                cards_dictionary[cards_is_selected[2]]!.match_card_and_redraw(match: true)
             }else{
                 print("not match")
+                cards_dictionary[cards_is_selected[0]]!.match_card_and_redraw(match: false)
+                cards_dictionary[cards_is_selected[1]]!.match_card_and_redraw(match: false)
+                cards_dictionary[cards_is_selected[2]]!.match_card_and_redraw(match: false)
             }
+        }
+        if cards_is_selected.count == 4{
+            cards_dictionary[cards_is_selected[0]]!.match_card_and_redraw(match: nil)
+            cards_dictionary[cards_is_selected[1]]!.match_card_and_redraw(match: nil)
+            cards_dictionary[cards_is_selected[2]]!.match_card_and_redraw(match: nil)
+            cards_dictionary[cards_is_selected[0]]!.select_and_deselect_the_card()
+            cards_dictionary[cards_is_selected[1]]!.select_and_deselect_the_card()
+            cards_dictionary[cards_is_selected[2]]!.select_and_deselect_the_card()
+            cards_is_selected.remove(at: 0)
+            cards_is_selected.remove(at: 0)
+            cards_is_selected.remove(at: 0)
         }
     }
 }
