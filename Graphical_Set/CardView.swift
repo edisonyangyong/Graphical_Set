@@ -110,12 +110,12 @@ class CardView: UIView {
     }
     
     override func draw(_ rect: CGRect) {
-        //print(color!, num!, shape!, "draw")
         // draw the rounded card bound
         roundedRect = UIBezierPath(roundedRect: bounds, cornerRadius: bounds.width/5)
         roundedRect!.addClip()
         UIColor.white.setFill()
         roundedRect!.fill()
+        // draw the stroke
         if is_select{
             roundedRect?.lineWidth = bounds.width/7
             UIColor(red: 250/255.0, green: 212/255.0, blue: 77/255.0, alpha: 1).setStroke()

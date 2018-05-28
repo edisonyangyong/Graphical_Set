@@ -18,10 +18,12 @@ class ViewController: UIViewController {
     
     // new game button
     @IBAction func new_game(_ sender: UIButton) {
-         game = Set_game()
+        game = Set_game()
+        cards_is_selected = []
+        cards_in_stack = []
+        cards_dictionary = [:]
         // clear all the subviews
         self.stack_view!.subviews.forEach({ $0.removeFromSuperview() })
-        cards_in_stack = []
         for _ in 0...11{
             let card = game?.draw_a_card()
             cards_in_stack.append(card!)
@@ -44,7 +46,9 @@ class ViewController: UIViewController {
     
     @IBAction func cheat(_ sender: UIButton) {
         for card in cards_is_selected{
-            cards_dictionary[card]!.select_and_deselect_the_card()
+            if cards_dictionary[card]!.is_select{
+                 cards_dictionary[card]!.select_and_deselect_the_card()
+            }
         }
         for (_, card_view) in cards_dictionary{
             if card_view.is_match != nil{
@@ -131,6 +135,18 @@ class ViewController: UIViewController {
     
     // being called why any card view was tapped
     @objc func tapped(){
+        print(cards_is_selected.count)
+        // deal with the cheated cards
+//        for (card, card_view) in cards_dictionary{
+//            if card_view.is_match == true{
+//                if game!.cards.count > 0{
+//                    let new_card = game!.draw_a_card()
+//                    cards_in_stack[game!.return_card_index(card: card, cards: cards_in_stack)] = new_card!
+//                    load_cards(cards: cards_in_stack)
+//                }
+//            }
+//        }
+        // deal with the selected cares
         for (card, card_view) in cards_dictionary{
             if card_view.is_select && card_view.is_match == nil{
                 var flag = false
@@ -150,6 +166,7 @@ class ViewController: UIViewController {
                 }
             }
         }
+        print(cards_is_selected.count)
         if cards_is_selected.count == 3 {
             if game!.set_checking(is_cheated: false, card1: cards_is_selected[0], card2: cards_is_selected[1], card3: cards_is_selected[2]){
                 set_match_to(bool: true)
