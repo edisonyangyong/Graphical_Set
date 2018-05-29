@@ -95,8 +95,11 @@ class ViewController: UIViewController {
     
     // given all the cards on the desk and re-load them in the stack view
     func load_cards(cards: [Card]){
+//        // clear the dictionary
+//        cards_dictionary = [:]
         // clear all the subviews
         self.stack_view!.subviews.forEach({ $0.removeFromSuperview() })
+        // determine the cards number of row and column
         var x_num = 0
         var y_num = 0
         var index = 0
@@ -111,6 +114,14 @@ class ViewController: UIViewController {
                 x_num = mid + 1
             }
         }
+        var remain_selection_index: Int?
+        // remain the selection mark
+        for (card, card_view) in cards_dictionary{
+            if card_view.is_select{
+                remain_selection_index = game?.return_card_index(card: card, cards: cards_in_stack)
+            }
+        }
+        // create the card view one by one
         for i in 0..<y_num{
             for j in 0..<x_num{
                 if index < cards.count{
@@ -131,21 +142,29 @@ class ViewController: UIViewController {
                 }
             }
         }
+        // set back the card with selection mark
+        if remain_selection_index != nil{
+             cards_dictionary[cards_in_stack[remain_selection_index!]]!.select_and_deselect_the_card()
+        }
     }
     
     // being called why any card view was tapped
     @objc func tapped(){
-        print(cards_is_selected.count)
         // deal with the cheated cards
-//        for (card, card_view) in cards_dictionary{
-//            if card_view.is_match == true{
-//                if game!.cards.count > 0{
-//                    let new_card = game!.draw_a_card()
-//                    cards_in_stack[game!.return_card_index(card: card, cards: cards_in_stack)] = new_card!
-//                    load_cards(cards: cards_in_stack)
-//                }
-//            }
-//        }
+        for (card, card_view) in cards_dictionary{
+            if card_view.is_match == true{
+                cards_dictionary[card] = nil
+                if game!.cards.count > 0{
+                    let new_card = game!.draw_a_card()
+                    cards_in_stack[game!.return_card_index(card: card, cards: cards_in_stack)] = new_card!
+                    load_cards(cards: cards_in_stack)
+                    // 在这里会刷新所有card view 的数据
+                }
+                else{
+                    // 卡发完后，删除绿卡
+                }
+            }
+        }
         // deal with the selected cares
         for (card, card_view) in cards_dictionary{
             if card_view.is_select && card_view.is_match == nil{
@@ -166,7 +185,7 @@ class ViewController: UIViewController {
                 }
             }
         }
-        print(cards_is_selected.count)
+        print("selection count: \(cards_is_selected.count)")
         if cards_is_selected.count == 3 {
             if game!.set_checking(is_cheated: false, card1: cards_is_selected[0], card2: cards_is_selected[1], card3: cards_is_selected[2]){
                 set_match_to(bool: true)
