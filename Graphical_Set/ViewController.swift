@@ -127,11 +127,15 @@ class ViewController: UIViewController {
                     stack_view!.addSubview(customView)
                     cards_dictionary[cards[index]] = customView
                     index += 1
-                    // add gesture
+                    // add tap gesture
                     let tap = UITapGestureRecognizer(target: customView, action: #selector(customView.select_and_deselect_the_card))
                     tap.addTarget(self, action: #selector(tapped))
                     customView.addGestureRecognizer(tap)
-                    // 1) call select_and_deselect_the_card; 2) call tapped; 3) call redraw
+                    // add swipe gesture
+                    let swipe = UISwipeGestureRecognizer(target: self, action: #selector(deal(_:)))
+                    swipe.direction = [.down, .up]
+                    // start recognizing the gesture
+                    self.view.addGestureRecognizer(swipe)
                 }
             }
         }
