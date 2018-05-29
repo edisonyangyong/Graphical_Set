@@ -157,7 +157,9 @@ class ViewController: UIViewController {
                     // 在这里会刷新所有card view 的数据
                 }
                 else{
-                    // 卡发完后，删除绿卡
+                    // remove all the green card when no card left in the deck
+                    cards_in_stack.remove(at: game!.return_card_index(card: card, cards: cards_in_stack))
+                    load_cards(cards: cards_in_stack)
                 }
             }
         }
@@ -181,7 +183,7 @@ class ViewController: UIViewController {
                 }
             }
         }
-        print("selection count: \(cards_is_selected.count)")
+        //print("selection count: \(cards_is_selected.count)")
         if cards_is_selected.count == 3 {
             if game!.set_checking(is_cheated: false, card1: cards_is_selected[0], card2: cards_is_selected[1], card3: cards_is_selected[2]){
                 set_match_to(bool: true)
