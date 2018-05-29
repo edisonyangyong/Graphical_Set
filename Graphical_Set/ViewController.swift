@@ -49,16 +49,17 @@ class ViewController: UIViewController {
     }
     
     @IBAction func cheat(_ sender: UIButton) {
-        cards_is_selected = []
-        for (_, card_view) in cards_dictionary{
-            if card_view.is_select{
-                card_view.select_and_deselect_the_card()
-            }
+        // clean all the yellow cards
+        for card in cards_is_selected{
+            cards_dictionary[card]!.select_and_deselect_the_card()
         }
+        cards_is_selected = []
+        // clear all the red cards
         for (_, card_view) in cards_dictionary{
-            if card_view.is_match != nil{
-                card_view.match_card_and_redraw(match: nil)
-                card_view.select_and_deselect_the_card()
+            if card_view.is_match == false{
+                card_view.is_match = nil
+                card_view.setNeedsDisplay()
+                card_view.setNeedsDisplay()
             }
         }
         print(cheat_check())
@@ -79,9 +80,15 @@ class ViewController: UIViewController {
             for j in (i+1)..<cards_in_stack.count{
                 for k in (j+1)..<cards_in_stack.count{
                     if game!.set_checking(is_cheated: true, card1: cards_in_stack[i], card2: cards_in_stack[j], card3: cards_in_stack[k]){
-                        cards_dictionary[cards_in_stack[i]]?.match_card_and_redraw(match: true)
-                        cards_dictionary[cards_in_stack[j]]?.match_card_and_redraw(match: true)
-                        cards_dictionary[cards_in_stack[k]]?.match_card_and_redraw(match: true)
+                        cards_dictionary[cards_in_stack[i]]!.is_match = true
+                        cards_dictionary[cards_in_stack[i]]!.setNeedsDisplay()
+                        cards_dictionary[cards_in_stack[i]]!.setNeedsLayout()
+                        cards_dictionary[cards_in_stack[j]]!.is_match = true
+                        cards_dictionary[cards_in_stack[j]]!.setNeedsDisplay()
+                        cards_dictionary[cards_in_stack[j]]!.setNeedsLayout()
+                        cards_dictionary[cards_in_stack[k]]!.is_match = true
+                        cards_dictionary[cards_in_stack[k]]!.setNeedsDisplay()
+                        cards_dictionary[cards_in_stack[k]]!.setNeedsLayout()
                         return "found"
                     }
                 }
@@ -146,26 +153,9 @@ class ViewController: UIViewController {
     
     // being called why any card view was tapped
     @objc func tapped(){
-        // deal with the cheated cards
+        // figre out how many cards are selected
         for (card, card_view) in cards_dictionary{
-            if card_view.is_match == true{
-                cards_dictionary[card] = nil
-                if game!.cards.count > 0{
-                    let new_card = game!.draw_a_card()
-                    cards_in_stack[game!.return_card_index(card: card, cards: cards_in_stack)] = new_card!
-                    load_cards(cards: cards_in_stack)
-                    // 在这里会刷新所有card view 的数据
-                }
-                else{
-                    // remove all the green card when no card left in the deck
-                    cards_in_stack.remove(at: game!.return_card_index(card: card, cards: cards_in_stack))
-                    load_cards(cards: cards_in_stack)
-                }
-            }
-        }
-        // deal with the selected cares
-        for (card, card_view) in cards_dictionary{
-            if card_view.is_select && card_view.is_match == nil{
+            if card_view.is_select {
                 var flag = false
                 for c in cards_is_selected{
                     if c == card{
@@ -173,9 +163,9 @@ class ViewController: UIViewController {
                     }
                 }
                 if !flag{
-                     cards_is_selected.append(card)
+                    cards_is_selected.append(card)
                 }
-            }else if !card_view.is_select && card_view.is_match == nil{
+            }else{
                 for c in cards_is_selected{
                     if c == card{
                         cards_is_selected.remove(at: game!.return_card_index(card: card, cards: cards_is_selected))
@@ -183,26 +173,50 @@ class ViewController: UIViewController {
                 }
             }
         }
-        //print("selection count: \(cards_is_selected.count)")
+        print("\(cards_is_selected.count) cards are selected")
+        if cards_is_selected.count == 1{
+            for (card, card_view) in cards_dictionary{
+                // 3 cards are on green
+                if card_view.is_match == true{
+                    cards_dictionary[card] = nil
+                    if game!.cards.count > 0{
+                        let new_card = game!.draw_a_card()
+                        cards_in_stack[game!.return_card_index(card: card, cards: cards_in_stack)] = new_card!
+                        load_cards(cards: cards_in_stack)
+                        // 在这里会刷新所有card view 的数据
+                    }
+                    else{
+                        // remove all the green card when no card left in the deck
+                        cards_in_stack.remove(at: game!.return_card_index(card: card, cards: cards_in_stack))
+                        load_cards(cards: cards_in_stack)
+                    }
+                }
+                // 3 cards are on red
+                else if card_view.is_match == false{
+                    card_view.is_match = nil
+                    card_view.setNeedsLayout()
+                    card_view.setNeedsDisplay()
+                }
+            }
+        }
         if cards_is_selected.count == 3 {
+            // match!!!
             if game!.set_checking(is_cheated: false, card1: cards_is_selected[0], card2: cards_is_selected[1], card3: cards_is_selected[2]){
-                set_match_to(bool: true)
+                print("matching!")
+                for i in 0...2{
+                    cards_dictionary[cards_is_selected[i]]!.is_select = false
+                    cards_dictionary[cards_is_selected[i]]!.is_match = true
+                    cards_dictionary[cards_is_selected[i]]!.setNeedsDisplay()
+                }
             }else{
-                set_match_to(bool: false)
+                print("not matching!")
+                for i in 0...2{
+                    cards_dictionary[cards_is_selected[i]]!.is_select = false
+                    cards_dictionary[cards_is_selected[i]]!.is_match = false
+                    cards_dictionary[cards_is_selected[i]]!.setNeedsDisplay()
+                }
             }
-        }
-        if cards_is_selected.count == 4{
-            set_match_to(bool: nil)
-            for _ in 0...2{
-                cards_dictionary[cards_is_selected[0]]!.select_and_deselect_the_card()
-                cards_is_selected.remove(at: 0)
-            }
-        }
-    }
-    
-    func set_match_to(bool: Bool?){
-        for i in 0...2{
-             cards_dictionary[cards_is_selected[i]]!.match_card_and_redraw(match: bool)
+            cards_is_selected = []
         }
     }
 }

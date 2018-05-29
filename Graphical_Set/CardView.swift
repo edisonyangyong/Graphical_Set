@@ -116,19 +116,20 @@ class CardView: UIView {
         UIColor.white.setFill()
         roundedRect!.fill()
         // draw the stroke
-        if is_select{
-            roundedRect?.lineWidth = bounds.width/7
-            UIColor(red: 250/255.0, green: 212/255.0, blue: 77/255.0, alpha: 1).setStroke()
-        }else{
-            roundedRect?.lineWidth = bounds.width/50
-            UIColor.gray.setStroke()
-        }
         if is_match == true{
             roundedRect?.lineWidth = bounds.width/7
             UIColor(red: 91/255.0, green: 201/255.0, blue: 53/255.0, alpha: 1).setStroke()
         }else if is_match == false{
             roundedRect?.lineWidth = bounds.width/7
             UIColor(red: 234/255.0, green: 49/255.0, blue: 44/255.0, alpha: 1).setStroke()
+        }else{
+            if is_select{
+                roundedRect?.lineWidth = bounds.width/7
+                UIColor(red: 250/255.0, green: 212/255.0, blue: 77/255.0, alpha: 1).setStroke()
+            }else{
+                roundedRect?.lineWidth = bounds.width/50
+                UIColor.gray.setStroke()
+            }
         }
         roundedRect!.stroke()
         // draw the pattern
@@ -156,17 +157,5 @@ class CardView: UIView {
             setNeedsDisplay()
             setNeedsLayout()
         }
-    }
-
-    func match_card_and_redraw(match: Bool?){
-        if match == true{
-            is_match = true
-        }else if match == false {
-            is_match = false
-        }else{
-            is_match = nil
-        }
-        setNeedsDisplay()
-        setNeedsLayout()
     }
 }
