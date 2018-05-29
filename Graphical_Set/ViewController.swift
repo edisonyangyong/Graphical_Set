@@ -25,8 +25,6 @@ class ViewController: UIViewController {
         self.view.addSubview(stack_view!)
         load_first_12_cards()
     }
-    
-    // new game button
     @IBAction func new_game(_ sender: UIButton) {
         cards_is_selected = []
         cards_in_stack = []
@@ -35,8 +33,6 @@ class ViewController: UIViewController {
         self.stack_view!.subviews.forEach({ $0.removeFromSuperview() })
         load_first_12_cards()
     }
-    
-    // deal button
     @IBAction func deal(_ sender: UIButton) {
         if game!.cards.count >= 2{
             for _ in 0...2{
@@ -47,7 +43,6 @@ class ViewController: UIViewController {
             load_cards(cards: cards_in_stack)
         }
     }
-    
     @IBAction func cheat(_ sender: UIButton) {
         // clean all the yellow cards
         for card in cards_is_selected{
@@ -80,15 +75,9 @@ class ViewController: UIViewController {
             for j in (i+1)..<cards_in_stack.count{
                 for k in (j+1)..<cards_in_stack.count{
                     if game!.set_checking(is_cheated: true, card1: cards_in_stack[i], card2: cards_in_stack[j], card3: cards_in_stack[k]){
-                        cards_dictionary[cards_in_stack[i]]!.is_match = true
-                        cards_dictionary[cards_in_stack[i]]!.setNeedsDisplay()
-                        cards_dictionary[cards_in_stack[i]]!.setNeedsLayout()
-                        cards_dictionary[cards_in_stack[j]]!.is_match = true
-                        cards_dictionary[cards_in_stack[j]]!.setNeedsDisplay()
-                        cards_dictionary[cards_in_stack[j]]!.setNeedsLayout()
-                        cards_dictionary[cards_in_stack[k]]!.is_match = true
-                        cards_dictionary[cards_in_stack[k]]!.setNeedsDisplay()
-                        cards_dictionary[cards_in_stack[k]]!.setNeedsLayout()
+                        change_match(card_view: cards_dictionary[cards_in_stack[i]]!, bool: true)
+                        change_match(card_view: cards_dictionary[cards_in_stack[j]]!, bool: true)
+                        change_match(card_view: cards_dictionary[cards_in_stack[k]]!, bool: true)
                         return "found"
                     }
                 }
@@ -193,9 +182,7 @@ class ViewController: UIViewController {
                 }
                 // 3 cards are on red
                 else if card_view.is_match == false{
-                    card_view.is_match = nil
-                    card_view.setNeedsLayout()
-                    card_view.setNeedsDisplay()
+                    change_match(card_view: card_view, bool: nil)
                 }
             }
         }
@@ -205,18 +192,22 @@ class ViewController: UIViewController {
                 print("matching!")
                 for i in 0...2{
                     cards_dictionary[cards_is_selected[i]]!.is_select = false
-                    cards_dictionary[cards_is_selected[i]]!.is_match = true
-                    cards_dictionary[cards_is_selected[i]]!.setNeedsDisplay()
+                    change_match(card_view: cards_dictionary[cards_is_selected[i]]!, bool: true)
                 }
             }else{
                 print("not matching!")
                 for i in 0...2{
                     cards_dictionary[cards_is_selected[i]]!.is_select = false
-                    cards_dictionary[cards_is_selected[i]]!.is_match = false
-                    cards_dictionary[cards_is_selected[i]]!.setNeedsDisplay()
+                    change_match(card_view: cards_dictionary[cards_is_selected[i]]!, bool: false)
                 }
             }
             cards_is_selected = []
         }
+    }
+    
+    func change_match(card_view:CardView, bool: Bool?){
+        card_view.is_match = bool
+        card_view.setNeedsDisplay()
+        card_view.setNeedsLayout()
     }
 }
