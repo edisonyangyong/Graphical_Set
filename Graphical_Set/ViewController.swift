@@ -24,6 +24,13 @@ class ViewController: UIViewController {
         stack_view!.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
         self.view.addSubview(stack_view!)
         load_first_12_cards()
+        // add swipe gesture
+        let swipe = UISwipeGestureRecognizer(target: self, action: #selector(deal(_:)))
+        swipe.direction = [.down, .up]
+        self.view.addGestureRecognizer(swipe)
+        // add pinch gesture
+        let pinch = UIPinchGestureRecognizer(target: self, action: #selector(random_cards))
+        self.view.addGestureRecognizer(pinch)
     }
     @IBAction func new_game(_ sender: UIButton) {
         cards_is_selected = []
@@ -131,11 +138,6 @@ class ViewController: UIViewController {
                     let tap = UITapGestureRecognizer(target: customView, action: #selector(customView.select_and_deselect_the_card))
                     tap.addTarget(self, action: #selector(tapped))
                     customView.addGestureRecognizer(tap)
-                    // add swipe gesture
-                    let swipe = UISwipeGestureRecognizer(target: self, action: #selector(deal(_:)))
-                    swipe.direction = [.down, .up]
-                    // start recognizing the gesture
-                    self.view.addGestureRecognizer(swipe)
                 }
             }
         }
@@ -219,5 +221,18 @@ class ViewController: UIViewController {
     
     func update_view_from_model(){
         score.text = "Score: \(game!.score)"
+    }
+    
+    @objc func random_cards(){
+        print(cards_in_stack.count)
+        let total_num = cards_in_stack.count
+        game!.cards += cards_in_stack
+        cards_in_stack = []
+        for _ in 0..<total_num{
+            let card = game!.draw_a_card()
+            cards_in_stack.append(card!)
+        }
+        // load the cards
+        load_cards(cards: cards_in_stack)
     }
 }

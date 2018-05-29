@@ -49,6 +49,10 @@ struct Set_game{
             return nil
         }
     }
+    
+    mutating func put_cards_back(cards:[Card]){
+        self.cards += cards
+    }
 }
 
 extension Int {
