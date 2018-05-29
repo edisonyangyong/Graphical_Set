@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     var cards_in_stack = [Card]()
     var cards_dictionary = [Card:CardView]()
     var cards_is_selected = [Card]()
-    
+    @IBOutlet weak var score: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         // laod the card stack view
@@ -32,6 +32,7 @@ class ViewController: UIViewController {
         // clear all the subviews
         self.stack_view!.subviews.forEach({ $0.removeFromSuperview() })
         load_first_12_cards()
+        update_view_from_model()
     }
     @IBAction func deal(_ sender: UIButton) {
         if game!.cards.count >= 2{
@@ -202,6 +203,7 @@ class ViewController: UIViewController {
                 }
             }
             cards_is_selected = []
+            update_view_from_model()
         }
     }
     
@@ -209,5 +211,9 @@ class ViewController: UIViewController {
         card_view.is_match = bool
         card_view.setNeedsDisplay()
         card_view.setNeedsLayout()
+    }
+    
+    func update_view_from_model(){
+        score.text = "Score: \(game!.score)"
     }
 }
