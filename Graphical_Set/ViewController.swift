@@ -16,27 +16,31 @@ class ViewController: UIViewController {
     var cards_dictionary = [Card:CardView]()
     var cards_is_selected = [Card]()
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // laod the card stack view
+        let frame = CGRect(x: 20, y: 20, width: self.view.frame.size.width-40, height: self.view.frame.size.height*3/4)
+        stack_view = UIView(frame: frame)
+        stack_view!.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+        self.view.addSubview(stack_view!)
+        load_first_12_cards()
+    }
+    
     // new game button
     @IBAction func new_game(_ sender: UIButton) {
-        game = Set_game()
         cards_is_selected = []
         cards_in_stack = []
         cards_dictionary = [:]
         // clear all the subviews
         self.stack_view!.subviews.forEach({ $0.removeFromSuperview() })
-        for _ in 0...11{
-            let card = game?.draw_a_card()
-            cards_in_stack.append(card!)
-        }
-        // load the cards
-        load_cards(cards: cards_in_stack)
+        load_first_12_cards()
     }
     
     // deal button
     @IBAction func deal(_ sender: UIButton) {
         if game!.cards.count >= 2{
             for _ in 0...2{
-                let card = game?.draw_a_card()
+                let card = game!.draw_a_card()
                 cards_in_stack.append(card!)
             }
             // load the cards
@@ -45,9 +49,10 @@ class ViewController: UIViewController {
     }
     
     @IBAction func cheat(_ sender: UIButton) {
-        for card in cards_is_selected{
-            if cards_dictionary[card]!.is_select{
-                 cards_dictionary[card]!.select_and_deselect_the_card()
+        cards_is_selected = []
+        for (_, card_view) in cards_dictionary{
+            if card_view.is_select{
+                card_view.select_and_deselect_the_card()
             }
         }
         for (_, card_view) in cards_dictionary{
@@ -57,6 +62,16 @@ class ViewController: UIViewController {
             }
         }
         print(cheat_check())
+    }
+    
+    func load_first_12_cards(){
+        game = Set_game()
+        for _ in 0...11{
+            let card = game!.draw_a_card()
+            cards_in_stack.append(card!)
+        }
+        // load the cards
+        load_cards(cards: cards_in_stack)
     }
     
     func cheat_check() -> String{
@@ -75,28 +90,9 @@ class ViewController: UIViewController {
         return "not found"
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // load the game and draw a card
-        game = Set_game()
-        // laod the card stack view
-        let frame = CGRect(x: 20, y: 20, width: self.view.frame.size.width-40, height: self.view.frame.size.height*3/4)
-        stack_view = UIView(frame: frame)
-        stack_view!.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
-        self.view.addSubview(stack_view!)
-        // load first 12 cards
-        for _ in 0...11{
-            let card = game?.draw_a_card()
-            cards_in_stack.append(card!)
-        }
-        // load the cards
-        load_cards(cards: cards_in_stack)
-    }
-    
     // given all the cards on the desk and re-load them in the stack view
+    // this method will clear all the cards views attributes except selection mark
     func load_cards(cards: [Card]){
-//        // clear the dictionary
-//        cards_dictionary = [:]
         // clear all the subviews
         self.stack_view!.subviews.forEach({ $0.removeFromSuperview() })
         // determine the cards number of row and column

@@ -167,6 +167,6 @@ class CardView: UIView {
             is_match = nil
         }
         setNeedsDisplay()
-        //setNeedsLayout()
+        setNeedsLayout()
     }
 }
